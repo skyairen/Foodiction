@@ -1,26 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-
-<head>
-
-FooDiction
-
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<link rel="stylesheet" type="text/css" href="style/theme.css">
-
-</head>
-
-<body>
-	<div class="container">
-		<p>
-			This is the landing page for MIE350 Project Group 4, Fall Semester 2016. This is the landing page for the database connection milestone. No other templates/pages have been created as of now.
-		</p>
-	</div>
-</body>
-
-</html>
-
-<!-- <%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -28,24 +6,36 @@ FooDiction
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <link rel="stylesheet" type="text/css" href="style/theme.css">
 
-<title>MIE350 Sample Database Web App</title>
+<title>FooDiction</title>
 
 </head>
 <body>
-	<%@ include file="navbar.jsp"%>
+
+	<center>
+		<h1>FooDiction</h1>
+	</center>
 
 	<div class="container">
 
-		Welcome!<br>
-		<br> In this project, your team will design and build a web
-		application. A web application is a software application that is
-		accessed over the Internet using standard browsers (e.g. Internet
-		Explorer, Mozilla Firefox). Examples of web application would be
-		online-shopping, web banking, stock exchange and many others. Each
-		member of the team is expected to contribute equally to the project
-		though there may be a variety of different roles.
+		This is the landing page for MIE350 Project Group 
+		4, Fall Semester 2016. This is the landing page for the 
+		database connection milestone. No other templates/pages 
+		have been created as of now.<br>
 
 	</div>
-	<%@ include file="footer.jsp"%>
+	
+	<div class="container">
+
+		Database connection tested here.<br>
+		Displayed below are a list of ingredients in our database: <br>
+		<tbody>
+				<c:forEach items="${ing}" var="ingredient">
+					<tr>
+						<td align="center"><c:out value="${ingredient.getName()}" /></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+
+	</div>
 </body>
-</html> -->
+</html>

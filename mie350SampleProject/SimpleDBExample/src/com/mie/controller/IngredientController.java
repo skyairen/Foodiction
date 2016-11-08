@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mie.dao.UserDao;
-import com.mie.model.User;
+import com.mie.dao.IngredientDao;
+import com.mie.model.Ingredient;
 
-public class UserController extends HttpServlet {
+public class IngredientController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String INSERT_OR_EDIT = "/user.jsp";
 	private static String LIST_USER = "/listUser.jsp";
 	private static String SEARCH_FNAME_USER = "/searchFNUser.jsp";
-	private UserDao dao;
+	private IngredientDao dao;
 
-	public UserController() {
+	public IngredientController() {
 		super();
-		dao = new UserDao();
+		dao = new IngredientDao();
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -32,48 +32,46 @@ public class UserController extends HttpServlet {
 		String action = request.getParameter("action");
 
 		if (action.equalsIgnoreCase("delete")) {
-			int userId = Integer.parseInt(request.getParameter("userId"));
-			dao.deleteUser(userId);
-			forward = LIST_USER;
-			request.setAttribute("users", dao.getAllUsers());
+//			int userId = Integer.parseInt(request.getParameter("userId"));
+//			dao.deleteUser(userId);
+//			forward = LIST_USER;
+//			request.setAttribute("users", dao.getAllUsers());
 		} else if (action.equalsIgnoreCase("edit")) {
-			forward = INSERT_OR_EDIT;
-			int userId = Integer.parseInt(request.getParameter("userId"));
-			User user = dao.getUserById(userId);
-			request.setAttribute("user", user);
+//			forward = INSERT_OR_EDIT;
+//			int userId = Integer.parseInt(request.getParameter("userId"));
+//			User user = dao.getUserById(userId);
+//			request.setAttribute("user", user);
 		} else if (action.equalsIgnoreCase("listUser")) {
 			forward = LIST_USER;
-			request.setAttribute("users", dao.getAllUsers());
+			request.setAttribute("ing", dao.getAllIngredient());
 		} else {
-			forward = INSERT_OR_EDIT;
+//			forward = INSERT_OR_EDIT;
 		}
-
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		User user = new User();
-		user.setFirstName(request.getParameter("firstName"));
-		user.setLastName(request.getParameter("lastName"));
-		try {
-			Date dob = new SimpleDateFormat("MM/dd/yyyy").parse(request
-					.getParameter("dob"));
-			user.setDob(dob);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		user.setEmail(request.getParameter("email"));
-		String userid = request.getParameter("userid");
-		if (userid == null || userid.isEmpty()) {
-			dao.addUser(user);
-		} else {
-			user.setUserid(Integer.parseInt(userid));
-			dao.updateUser(user);
-		}
+		Ingredient ingredient = new Ingredient();
+		ingredient.setName(request.getParameter("name"));
+//		try {
+//			Date dob = new SimpleDateFormat("MM/dd/yyyy").parse(request
+//					.getParameter("dob"));
+//			ingredient.setName(dob);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		ingredient.setEmail(request.getParameter("email"));
+//		String userid = request.getParameter("userid");
+//		if (userid == null || userid.isEmpty()) {
+//			dao.addUser(ingredient);
+//		} else {
+//			ingredient.setUserid(Integer.parseInt(userid));
+//			dao.updateUser(ingredient);
+//		}
 		RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
-		request.setAttribute("users", dao.getAllUsers());
+		request.setAttribute("ing", dao.getAllUsers());
 		view.forward(request, response);
 	}
 }
