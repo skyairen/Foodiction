@@ -74,12 +74,10 @@ public class IngredientDao {
 		List<Ingredient> ing = new ArrayList<Ingredient>();
 		try {
 			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("select * from Ingredients");
+			ResultSet rs = statement.executeQuery("select * from Ingredient");
 			while (rs.next()) {
 				Ingredient ingredient = new Ingredient();
-				ingredient.setIngredientID(rs.getInt("ingredientid"));
-				ingredient.setName(rs.getString("name"));
-				ingredient.setSodium(rs.getDouble("sodium"));
+				ingredient.setName(rs.getInt("name"));
 //				user.setFirstName(rs.getString("firstname"));
 //				user.setLastName(rs.getString("lastname"));
 //				user.setDob(rs.getDate("dob"));

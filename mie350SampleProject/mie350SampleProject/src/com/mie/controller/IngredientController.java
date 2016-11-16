@@ -17,7 +17,7 @@ import com.mie.model.Ingredient;
 public class IngredientController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String INSERT_OR_EDIT = "/user.jsp";
-	private static String LIST_INGREDIENT = "/listIngredient.jsp";
+	private static String LIST_USER = "/listUser.jsp";
 	private static String SEARCH_FNAME_USER = "/searchFNUser.jsp";
 	private IngredientDao dao;
 
@@ -41,8 +41,8 @@ public class IngredientController extends HttpServlet {
 //			int userId = Integer.parseInt(request.getParameter("userId"));
 //			User user = dao.getUserById(userId);
 //			request.setAttribute("user", user);
-		} else if (action.equalsIgnoreCase("listIngredient")) {
-			forward = LIST_INGREDIENT;
+		} else if (action.equalsIgnoreCase("listUser")) {
+			forward = LIST_USER;
 			request.setAttribute("ing", dao.getAllIngredient());
 		} else {
 //			forward = INSERT_OR_EDIT;
@@ -70,8 +70,8 @@ public class IngredientController extends HttpServlet {
 //			ingredient.setUserid(Integer.parseInt(userid));
 //			dao.updateUser(ingredient);
 //		}
-		RequestDispatcher view = request.getRequestDispatcher(LIST_INGREDIENT);
-		request.setAttribute("ing", dao.getAllIngredient());
+		RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
+		request.setAttribute("ing", dao.getAllUsers());
 		view.forward(request, response);
 	}
 }

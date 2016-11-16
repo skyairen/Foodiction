@@ -10,7 +10,7 @@
 
 </head>
 <body>
-	<%@ include file="navbar.jsp"%>
+
 	<center>
 		<h1>FooDiction</h1>
 	</center>
