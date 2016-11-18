@@ -1,0 +1,50 @@
+package com.mie.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mie.model.Store;
+import com.mie.util.DbUtil;
+
+public class StoresDao {
+	
+	private Connection connection;
+
+	public StoresDao() {
+		connection = DbUtil.getConnection();
+	}
+	
+	public void addStore(Store store) {
+		
+	}
+	
+	public void deleteStore(int storeId) {
+		
+	}
+	
+	public void updateStore(Store store){
+		
+	}
+	
+	public List<Store> getAllStores() {
+		
+	}
+	
+	public Store getStoreById(int storeId) {
+		
+	}
+	
+	public Store getStoreByName(String name) {
+		
+	}
+	
+	public List<Store> getStoreByKeyword(String keyword) {
+		
+	}
+
+}

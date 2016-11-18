@@ -1,0 +1,36 @@
+package com.mie.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import com.mie.model.Recipe;
+import com.mie.util.DbUtil;
+
+public class RecipeDao {
+
+	private Connection connection;
+
+	public UserDao() {
+		connection = DbUtil.getConnection();
+	}
+	
+	public void addRecipe(Recipe recipe) {
+		
+	}
+	
+	public void deleteRecipe() {
+		
+	}
+	
+	public void updateRecipe(){
+		
+	}
+	
+	public void getRecipeById(int recipeId) {
+		
+	}
+}
