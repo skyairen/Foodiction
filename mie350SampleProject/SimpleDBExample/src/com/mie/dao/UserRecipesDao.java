@@ -19,15 +19,59 @@ public class UserRecipesDao {
 		connection = DbUtil.getConnection();
 	}
 	
-	public void addRecipeByUser(int recipeId, int userId) {
+	public void addRecipeByUser(int recipeId, String username) {
+		
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("insert into UserRecipes(UserName,RecipeID) values (?, ? )");
+			// Parameters start with 1
+			preparedStatement.setString(1, username);
+			preparedStatement.setInt(2, recipeId);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		}
+	
+	public void deleteRecipeByUser(int recipeId, String username) {
+		
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("delete from UserRecipes where UserName=? AND RecipeID=?");
+			// Parameters start with 1
+			preparedStatement.setString(1, username);
+			preparedStatement.setInt(2, recipeId);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
-	public void deleteRecipeByUser(int recipeId, int userId) {
+	public List<Recipe> getAllRecipesByUser(String username) {
 		
-	}
-	
-	public List<Recipe> getAllRecipesByUser(int userId) {
+		List<Recipe> recipes = new ArrayList<Recipe>();
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from UserRecipes where UserName=?");
+			preparedStatement.setString(1, username);
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				Recipe recipe  = new Recipe();
+				recipe.setRecipeID(rs.getInt("RecipeID"));
+				
+				recipes.add(recipe);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return recipes;
 		
 	}
 	

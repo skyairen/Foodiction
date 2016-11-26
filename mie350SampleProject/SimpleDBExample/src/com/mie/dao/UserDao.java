@@ -110,29 +110,6 @@ public class UserDao {
 		return user;
 	}
 	
-/*	public User getUserByFName(String name) {
-		System.out.println("test");
-		User user = new User();
-		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("select * from users where firstname=?");
-			preparedStatement.setString(1, name);
-			ResultSet rs = preparedStatement.executeQuery();
-			System.out.println("test.................");
-			if (rs.next()) {
-				user.setUserid(rs.getInt("userid"));
-				user.setFirstName(rs.getString("firstname"));
-				user.setLastName(rs.getString("lastname"));
-				user.setDob(rs.getDate("dob"));
-				user.setEmail(rs.getString("email"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return user;
-	}
-	*/
 	public List<User> getUserByKeyword(String keyword) {
 		List<User> users = new ArrayList<User>();
 		try {
@@ -163,3 +140,5 @@ public class UserDao {
 	}
 	
 }
+
+
