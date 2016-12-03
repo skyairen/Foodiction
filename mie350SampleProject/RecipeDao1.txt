@@ -1,0 +1,255 @@
+package com.mie.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mie.model.Recipe;
+import com.mie.model.User;
+import com.mie.util.DbUtil;
+
+public class RecipeDao {
+
+	private Connection connection;
+
+	public RecipeDao() {
+		connection = DbUtil.getConnection();
+	}
+	
+	public void addRecipe(Recipe recipe) {
+		try {
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("insert into recipe(name,gluten,vegan,servings,foodtype, preptimeminutes,cookingtimeminutes,difficulty, tips, directions, imageurl) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		// Parameters start with 1
+		preparedStatement.setString(1, recipe.getName());
+		preparedStatement.setBoolean(2, recipe.getGluten());
+		preparedStatement.setBoolean(3, recipe.getVegan());
+		preparedStatement.setInt(4, recipe.getServings());
+		preparedStatement.setString(5, recipe.getFoodType());
+		preparedStatement.setInt(6, recipe.getPrepTimeMinutes());
+		preparedStatement.setInt(7, recipe.getCookingTimeMinutes());
+		preparedStatement.setInt(8, recipe.getDifficulty());
+		preparedStatement.setString(9, recipe.getTips());
+		preparedStatement.setString(10, recipe.getDirections());
+		preparedStatement.setString(11, recipe.getImageURL());
+//		preparedStatement.setDate(3, new java.sql.Date(user.getDob()
+//				.getTime()));
+//		preparedStatement.setString(4, user.getEmail());
+		preparedStatement.executeUpdate();
+		//TODO ingredients, attachments, uploadedby
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	}
+	
+	public void addIngredienttoRecipe(Recipe recipe) {
+		try {
+			PreparedStatement preparedStatement = connection.
+					prepareStatement("Insert into RecipesIngredients(recipeid,ingredientid) values (?,?)");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void deleteRecipe(int recipeId) {
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("delete from recipe where recipeid=?");
+			// Parameters start with 1
+			preparedStatement.setInt(1, recipeId);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//TODO only if user has permission: uploadedBy
+	}
+	
+	public void updateRating(Recipe recipe) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement("update recipe set rating=? where recipeid=?");
+			preparedStatement.setInt(1, recipe.getRating());
+			preparedStatement.setInt(2, recipe.getRecipeID());
+			preparedStatement.executeUpdate();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void updateFavorites(Recipe recipe) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement("update recipe set favorites=? where recipeid=?");
+			preparedStatement.setInt(1, recipe.getFavorites());
+			preparedStatement.setInt(2, recipe.getRecipeID());
+			preparedStatement.executeUpdate();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void updateIMadeIt(Recipe recipe) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement("update recipe set imadeit=? where recipeid=?");
+			preparedStatement.setInt(1, recipe.getIMadeIt());
+			preparedStatement.setInt(2, recipe.getRecipeID());
+			preparedStatement.executeUpdate();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void updateRecipe(Recipe recipe){
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("update recipe set name=?, gluten=?, vegan=?, servings=?, foodtype=?,"
+							+ "preptimeminutes=?, cookingtimeminutes=?, difficulty=?, tips=?, directions=?, imageurl=?"
+							+ " where recipeid=?");
+			// Parameters start with 1
+		preparedStatement.setString(1, recipe.getName());
+		preparedStatement.setBoolean(2, recipe.getGluten());
+		preparedStatement.setBoolean(3, recipe.getVegan());
+		preparedStatement.setInt(4, recipe.getServings());
+		preparedStatement.setString(5, recipe.getFoodType());
+		preparedStatement.setInt(6, recipe.getPrepTimeMinutes());
+		preparedStatement.setInt(7, recipe.getCookingTimeMinutes());
+		preparedStatement.setInt(8, recipe.getDifficulty());
+		preparedStatement.setString(9, recipe.getTips());
+		preparedStatement.setString(10, recipe.getDirections());
+		preparedStatement.setString(11, recipe.getImageURL());
+				preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Recipe> getAllRecipes() {
+		List<Recipe> recipes = new ArrayList<Recipe>();
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("select * from recipe");
+			while (rs.next()) {
+				Recipe recipe = new Recipe();
+				recipe.setRecipeID(rs.getInt("recipeid"));
+				recipe.setName(rs.getString("name"));
+				recipe.setFoodType(rs.getString("foodtype"));
+				recipe.setGluten(rs.getBoolean("gluten"));
+				recipe.setVegan(rs.getBoolean("vegan"));
+				recipe.setDifficulty(rs.getInt("difficulty"));
+				recipe.setRating(rs.getInt("rating"));
+				recipe.setFavorites(rs.getInt("favorites"));
+				recipe.setImageURL(rs.getString("imageurl"));
+				recipe.setDirections(rs.getString("directions"));
+				recipe.setTips(rs.getString("tips"));
+//				user.setLastName(rs.getString("lastname"));
+//				user.setDob(rs.getDate("dob"));
+//				user.setEmail(rs.getString("email"));
+				recipes.add(recipe);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return recipes;
+	}
+	
+	public Recipe getRecipeById(int recipeId) {
+		Recipe recipe = new Recipe();
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from recipe where recipeid=?");
+			preparedStatement.setInt(1, recipeId);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			if (rs.next()) {
+				recipe.setRecipeID(rs.getInt("recipeid"));
+				recipe.setName(rs.getString("name"));
+				recipe.setFoodType(rs.getString("foodtype"));
+				recipe.setUploadedBy(rs.getString("uploadedby"));
+				recipe.setGluten(rs.getBoolean("gluten"));
+				recipe.setVegan(rs.getBoolean("vegan"));
+				recipe.setDifficulty(rs.getInt("difficulty"));
+				recipe.setRating(rs.getInt("rating"));
+				recipe.setFavorites(rs.getInt("favorites"));
+				recipe.setImageURL(rs.getString("imageurl"));
+				recipe.setDirections(rs.getString("directions"));
+				recipe.setTips(rs.getString("tips"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return recipe;
+	}
+	
+	public Recipe getRecipeByName(String name) {
+		Recipe recipe = new Recipe();
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from recipe where name=?");
+			preparedStatement.setString(1, name);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			if (rs.next()) {
+				recipe.setRecipeID(rs.getInt("recipeid"));
+				recipe.setName(rs.getString("name"));
+				recipe.setFoodType(rs.getString("foodtype"));
+				recipe.setUploadedBy(rs.getString("uploadedby"));
+				recipe.setGluten(rs.getBoolean("gluten"));
+				recipe.setVegan(rs.getBoolean("vegan"));
+				recipe.setDifficulty(rs.getInt("difficulty"));
+				recipe.setRating(rs.getInt("rating"));
+				recipe.setFavorites(rs.getInt("favorites"));
+				recipe.setImageURL(rs.getString("imageurl"));
+				recipe.setDirections(rs.getString("directions"));
+				recipe.setTips(rs.getString("tips"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return recipe;
+	}
+	
+	public List<Recipe> getRecipeByKeyword(String keyword) {
+		List<Recipe> recipes = new ArrayList<Recipe>();
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from recipe where name LIKE ?");
+			
+//			SELECT title FROM pages WHERE my_col LIKE %$param1% OR another_col LIKE %$param2%;
+			
+			preparedStatement.setString(1, "%" + keyword + "%");
+//			preparedStatement.setString(2, "%" + keyword + "%");
+//			preparedStatement.setString(3, "%" + keyword + "%");
+//			preparedStatement.setString(4, "%" + keyword + "%");
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				Recipe recipe = new Recipe();
+				recipe.setRecipeID(rs.getInt("recipeid"));
+				recipe.setName(rs.getString("name"));
+				recipe.setFoodType(rs.getString("foodtype"));
+				recipe.setGluten(rs.getBoolean("gluten"));
+				recipe.setVegan(rs.getBoolean("vegan"));
+				recipe.setDifficulty(rs.getInt("difficulty"));
+				recipe.setRating(rs.getInt("rating"));
+				recipe.setFavorites(rs.getInt("favorites"));
+				recipe.setImageURL(rs.getString("imageurl"));
+				recipe.setDirections(rs.getString("directions"));
+				recipe.setTips(rs.getString("tips"));
+				recipes.add(recipe);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return recipes;
+	}
+}
+
